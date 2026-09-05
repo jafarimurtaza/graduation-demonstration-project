@@ -9,7 +9,7 @@ type MessageRequest = {
 	graduate?: unknown;
 	graduateDocumentId?: unknown;
 };
-
+//checking for bad requests
 function badRequest(error: string) {
 	return NextResponse.json({ ok: false, error }, { status: 400 });
 }
