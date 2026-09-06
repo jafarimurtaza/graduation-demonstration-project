@@ -1,56 +1,64 @@
-// app/page.tsx
-import React from 'react';
-import GraduateLists from '../components/Events/GraduateList';
-import { getGraduates } from '@/lib/api'; // Imported from Hadia's Task 2 branch
+// src/app/page.tsx
+'use client';
 
-export default async function Page() {
-  // 1. Fetch real server data from Hadia's Strapi integration utility
-  // We use a try/catch block or fallback handling to accurately determine the error prop boolean flag.
-  let graduates = [];
-  let hasError = false;
+import React, { useState } from 'react';
+import GraduateLists from '@/components/Events/GraduateList';
 
-  try {
-    const data = await getGraduates();
-    // Maps safely depending on whether getGraduates returns an array directly or an object wrapper
-    graduates = Array.isArray(data) ? data : data?.graduates || [];
-  } catch (err) {
-    console.error('Failed to resolve graduate server profiles:', err);
-    hasError = true;
-  }
+const dummyGraduatesResponse = [
+  { id: '1', documentId: 'grad-1', name: 'Humaira' },
+  { id: '2', documentId: 'grad-2', name: 'Afifa Nazari' },
+  { id: '3', documentId: 'grad-3', name: 'Hadia Rauf' },
+  { id: '4', documentId: 'grad-4', name: 'Zahra' },
+  { id: '5', documentId: 'grad-5', name: 'Khatera Fayazi' },
+  { id: '6', documentId: 'grad-6', name: 'Samira Qoraishi' },
+];
+
+export default function Page() {
+  const [selectedId, setSelectedId] = useState<string>('');
+  const graduates = dummyGraduatesResponse || [];
+  const hasError = false; 
 
   return (
-    <main className="min-h-screen bg-[#1c140e] text-[#fbf6f0] p-6 sm:p-12" dir="rtl">
-      <div className="max-w-5xl mx-auto space-y-8">
+    <main className="relative min-h-screen bg-slate-50 text-slate-900 overflow-hidden flex items-center justify-center p-4 sm:p-8 antialiased" dir="ltr">
+      {/* Decorative Ambient Mesh Lighting */}
+      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-indigo-200/30 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-sky-200/20 rounded-full blur-[100px] pointer-events-none" />
+
+      {/* Main Glass Workspace Console Container */}
+      <div className="relative w-full max-w-5xl bg-white/60 border border-slate-200/80 rounded-[32px] p-6 sm:p-12 shadow-[0_24px_70px_-15px_rgba(15,23,42,0.06)] backdrop-blur-xl space-y-12">
         
-        {/* Cohort Branding Header Area */}
-        <div className="space-y-2 border-b border-amber-950/40 pb-6">
-          <div className="inline-flex items-center gap-1.5 bg-amber-950/80 text-amber-400 text-xs font-bold px-3 py-1 rounded-full border border-amber-900/40">
-            <span>★</span> Cohort 4 • {graduates.length} graduates
+        {/* Sleek Minimalist Console Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/60 pb-8">
+          <div className="space-y-1.5">
+            <h1 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
+              Graduation Wall Console
+            </h1>
+            <p className="text-slate-500 text-sm max-w-md font-normal leading-relaxed">
+              Select an accomplished graduate profile below to securely route your congratulatory message thread.
+            </p>
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-amber-50 sm:text-4xl">
-            Send a graduation message
-          </h1>
-          <p className="text-amber-200/60 text-sm max-w-xl">
-            Pick a graduate and write them a message
-          </p>
+
+          {/* Upper Micro Stat Indicator */}
+          <div className="self-start md:self-center inline-flex items-center gap-2 bg-white text-slate-800 text-[11px] font-bold tracking-wider uppercase px-4 py-2 rounded-full border border-slate-200 shadow-sm">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            System Live • {graduates.length} Active Profiles
+          </div>
         </div>
 
-        {/* Section Headline */}
+        {/* Console Subsection Heading */}
         <div className="space-y-1">
-          <h2 className="text-amber-200/80 text-xs font-bold uppercase tracking-wider">
-            Choose a graduate
+          <h2 className="text-slate-400 text-[10px] font-black uppercase tracking-widest">
+            Registry Sub-Grid Array
           </h2>
         </div>
 
-        {/* Task 3 Grid Component Connected to Real Pipeline */}
-        {/* Note: selectedId and onSelect handling will be wired up by Samira (Task 6) or Zahra (Task 4) */}
+        {/* Task 3 Ultra-Premium List View Grid Layout Component */}
         <GraduateLists 
           graduates={graduates}
           error={hasError}
-          selectedId="" 
-          onSelect={() => {}} 
+          selectedId={selectedId} 
+          onSelect={(id) => setSelectedId(id)}
         />
-
       </div>
     </main>
   );
