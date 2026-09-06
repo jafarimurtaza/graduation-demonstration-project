@@ -9,7 +9,7 @@ type MessageRequest = {
 	graduate?: unknown;
 	graduateDocumentId?: unknown;
 };
-//checking for bad requests
+
 function badRequest(error: string) {
 	return NextResponse.json({ ok: false, error }, { status: 400 });
 }
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
 	} catch {
 		return badRequest("Invalid JSON payload");
 	}
-
+//c
 	const message = typeof body.message === "string" ? body.message.trim() : "";
 	const senderName =
 		typeof body.sender_name === "string"
@@ -59,17 +59,6 @@ export async function POST(request: Request) {
 	const upstreamBaseUrl = baseUrl.replace(/\/api(?:\/messages)?$/, "");
 	const strapiToken = process.env.STRAPI_TOKEN || process.env.STRAPI_API_TOKEN;
 
-	if (!strapiToken) {
-		return NextResponse.json(
-			{
-				ok: false,
-				error:
-					"Server not configured. Add STRAPI_TOKEN or STRAPI_API_TOKEN to the server environment.",
-			},
-			{ status: 500 }
-		);
-	}
-
 	const payload = {
 		message,
 		sender_name: isAnonymousValue ? "" : senderName,
@@ -80,13 +69,18 @@ export async function POST(request: Request) {
 	const url = `${upstreamBaseUrl}/api/graduation-messages/public`;
 
 	try {
+		const headers: Record<string, string> = {
+			"Content-Type": "application/json",
+			Accept: "application/json",
+		};
+
+		if (strapiToken) {
+			headers.Authorization = `Bearer ${strapiToken}`;
+		}
+
 		const res = await fetch(url, {
 			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Accept: "application/json",
-				Authorization: `Bearer ${strapiToken}`,
-			},
+			headers,
 			body: JSON.stringify(payload),
 		});
 
@@ -106,3 +100,4 @@ export async function POST(request: Request) {
 	}
 }
 
+             
