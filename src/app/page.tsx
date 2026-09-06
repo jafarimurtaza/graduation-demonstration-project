@@ -1,68 +1,54 @@
 // app/page.tsx
-'use client';
-import React, { useState } from 'react';
+import React from 'react';
 import GraduateLists from '../components/Events/GraduateList';
+import { getGraduates } from '@/lib/api'; // Imported from Hadia's Task 2 branch
 
-// Updated Mock Dataset containing localized name objects
-const mockGraduates = [
-  { id: '1', documentId: 'grad-1', nameEn: 'Humaira', nameDa: 'حمیرا' },
-  { id: '2', documentId: 'grad-2', nameEn: 'Afifa Nazari', nameDa: 'عفیفه نظری' },
-  { id: '3', documentId: 'grad-3', nameEn: 'Hadia Rauf', nameDa: 'هادیه رئوف' },
-  { id: '4', documentId: 'grad-4', nameEn: 'Zahra', nameDa: 'زهرا' },
-  { id: '5', documentId: 'grad-5', nameEn: 'Khatera Fayazi', nameDa: 'خاطره فیاضی' },
-];
+export default async function Page() {
+  // 1. Fetch real server data from Hadia's Strapi integration utility
+  // We use a try/catch block or fallback handling to accurately determine the error prop boolean flag.
+  let graduates = [];
+  let hasError = false;
 
-export default function Page() {
-  const [selectedId, setSelectedId] = useState<string>('');
-  const [locale, setLocale] = useState<'da' | 'en'>('da');
-
-  const direction = locale === 'da' ? 'rtl' : 'ltr';
+  try {
+    const data = await getGraduates();
+    // Maps safely depending on whether getGraduates returns an array directly or an object wrapper
+    graduates = Array.isArray(data) ? data : data?.graduates || [];
+  } catch (err) {
+    console.error('Failed to resolve graduate server profiles:', err);
+    hasError = true;
+  }
 
   return (
-    <main className="min-h-screen bg-[#1c140e] p-8 transition-all duration-300" dir={direction}>
-      <div className="max-w-4xl mx-auto space-y-8">
+    <main className="min-h-screen bg-[#1c140e] text-[#fbf6f0] p-6 sm:p-12" dir="rtl">
+      <div className="max-w-5xl mx-auto space-y-8">
         
-        {/* Language Bar Switcher */}
-        <div className="flex justify-end gap-2 border-b border-amber-950/40 pb-4">
-          <button
-            onClick={() => setLocale('da')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-              locale === 'da'
-                ? 'bg-amber-500 text-[#1c140e]'
-                : 'bg-[#2a1e15] text-amber-200/50 hover:text-amber-100'
-            }`}
-          >
-            دری
-          </button>
-          <button
-            onClick={() => setLocale('en')}
-            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-              locale === 'en'
-                ? 'bg-amber-500 text-[#1c140e]'
-                : 'bg-[#2a1e15] text-amber-200/50 hover:text-amber-100'
-            }`}
-          >
-            English
-          </button>
-        </div>
-
-        {/* Content Heading */}
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold text-amber-50">
-            {locale === 'da' ? 'انتخاب فارغ‌التحصیل' : 'Choose a Graduate'}
+        {/* Cohort Branding Header Area */}
+        <div className="space-y-2 border-b border-amber-950/40 pb-6">
+          <div className="inline-flex items-center gap-1.5 bg-amber-950/80 text-amber-400 text-xs font-bold px-3 py-1 rounded-full border border-amber-900/40">
+            <span>★</span> Cohort 4 • {graduates.length} graduates
+          </div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-amber-50 sm:text-4xl">
+            Send a graduation message
           </h1>
-          <p className="text-xs text-amber-200/40">
-            {locale === 'da' ? 'لطفاً نام شخص مورد نظر را از لیست زیر انتخاب کنید.' : 'Please select the person from the list below.'}
+          <p className="text-amber-200/60 text-sm max-w-xl">
+            Pick a graduate and write them a message
           </p>
         </div>
-        
-        {/* Grid View Component with Live Translating Values */}
+
+        {/* Section Headline */}
+        <div className="space-y-1">
+          <h2 className="text-amber-200/80 text-xs font-bold uppercase tracking-wider">
+            Choose a graduate
+          </h2>
+        </div>
+
+        {/* Task 3 Grid Component Connected to Real Pipeline */}
+        {/* Note: selectedId and onSelect handling will be wired up by Samira (Task 6) or Zahra (Task 4) */}
         <GraduateLists 
-          graduates={mockGraduates}
-          error={false}
-          selectedId={selectedId}
-          onSelect={(id) => setSelectedId(id)}
-          locale={locale}
+          graduates={graduates}
+          error={hasError}
+          selectedId="" 
+          onSelect={() => {}} 
         />
 
       </div>
