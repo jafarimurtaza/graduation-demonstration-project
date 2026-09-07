@@ -1,5 +1,7 @@
 // app/events/page.tsx
 
+import React from "react";
+
 type Event = {
   id: number;
   title: string;
