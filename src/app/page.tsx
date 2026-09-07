@@ -1,63 +1,74 @@
 // src/app/page.tsx
-'use client';
+import React from 'react';
+import GraduatesList from "@/components/Graduates/GraduatesList";
+import { getGraduates, Graduate } from "@/lib/api";
 
-import React, { useState } from 'react';
-import GraduateLists from '@/components/Events/GraduateList';
+export default async function Home() {
+  let graduates: Graduate[] = []; 
+  let hasError = false;
 
-const dummyGraduatesResponse = [
-  { id: '1', documentId: 'grad-1', name: 'Humaira' },
-  { id: '2', documentId: 'grad-2', name: 'Afifa Nazari' },
-  { id: '3', documentId: 'grad-3', name: 'Hadia Rauf' },
-  { id: '4', documentId: 'grad-4', name: 'Zahra' },
-  { id: '5', documentId: 'grad-5', name: 'Khatera Fayazi' },
-  { id: '6', documentId: 'grad-6', name: 'Samira Qoraishi' },
-];
-
-export default function Page() {
-  const [selectedId, setSelectedId] = useState<string>('');
-  const graduates = dummyGraduatesResponse || [];
-  const hasError = false; 
+  try {
+    graduates = await getGraduates();
+  } catch (error) {
+    console.error("Failed to stream server profiles via getGraduates:", error);
+    hasError = true;
+  }
 
   return (
-    <main className="relative min-h-screen bg-slate-50 text-slate-900 overflow-hidden flex items-center justify-center p-4 sm:p-8 antialiased" dir="ltr">
-      {/* Decorative Ambient Mesh Lighting */}
-      <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-indigo-200/30 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-sky-200/20 rounded-full blur-[100px] pointer-events-none" />
+    <main className="min-h-screen bg-[#f7f6ee] text-black p-4 sm:p-12 relative overflow-hidden antialiased selection:bg-[#2b2670] selection:text-white" dir="ltr">
+      {/* Decorative Elegant Soft Palette Lighting */}
+      <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#c59c45]/10 blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-[#2b2670]/10 blur-[120px] pointer-events-none" />
 
-      {/* Main Glass Workspace Console Container */}
-      <div className="relative w-full max-w-5xl bg-white/60 border border-slate-200/80 rounded-[32px] p-6 sm:p-12 shadow-[0_24px_70px_-15px_rgba(15,23,42,0.06)] backdrop-blur-xl space-y-12">
+      <div className="max-w-7xl mx-auto space-y-12 relative z-10">
         
-        {/* Sleek Minimalist Console Header */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/60 pb-8">
-          <div className="space-y-1.5">
-            <h1 className="text-3xl font-black tracking-tight text-slate-900 sm:text-4xl">
-              Graduation Wall Console
+        {/* Premium Bento Header Container */}
+        <div className="bg-[#fffffe] border border-[#2b2670]/10 rounded-[28px] p-8 md:p-12 shadow-[0_20px_40px_-15px_rgba(43,38,112,0.03)] grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+          <div className="lg:col-span-2 space-y-4">
+            <div className="inline-flex items-center gap-2 bg-[#c59c45]/10 text-[#c59c45] text-[11px] font-bold tracking-widest uppercase px-3.5 py-1.5 rounded-full border border-[#c59c45]/20 shadow-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#c59c45] animate-pulse"></span>
+              Cohort Celebration • Active Registry
+            </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#2b2670] leading-[1.05]">
+              Honor Our Graduates
             </h1>
-            <p className="text-slate-500 text-sm max-w-md font-normal leading-relaxed">
-              Select an accomplished graduate profile below to securely route your congratulatory message thread.
+            <p className="text-slate-600 text-sm sm:text-base max-w-xl font-normal leading-relaxed">
+              Choose a graduate below to write a message and celebrate their incredible tech journey on our community wall.
             </p>
           </div>
-
-          {/* Upper Micro Stat Indicator */}
-          <div className="self-start md:self-center inline-flex items-center gap-2 bg-white text-slate-800 text-[11px] font-bold tracking-wider uppercase px-4 py-2 rounded-full border border-slate-200 shadow-sm">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            System Live • {graduates.length} Active Profiles
+          
+          {/* Custom Royal Blue & Gold Visual Counter Block */}
+          <div className="bg-[#2b2670] text-[#fffffe] rounded-[22px] p-6 shadow-xl relative overflow-hidden flex flex-col justify-between h-full min-h-[160px] border border-[#c59c45]/30">
+            <div className="absolute -right-6 -bottom-6 text-9xl text-white/5 font-black font-sans pointer-events-none select-none">
+              {graduates.length}
+            </div>
+            <div className="text-[11px] uppercase tracking-widest text-[#c59c45] font-bold">
+              Total Verified Records
+            </div>
+            <div className="space-y-1 mt-auto">
+              <div className="text-4xl sm:text-5xl font-black font-mono tracking-tight text-[#fffffe]">
+                {graduates.length}
+              </div>
+              <div className="text-xs text-slate-300 font-medium">
+                Profiles Active & Live Online
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* Console Subsection Heading */}
-        <div className="space-y-1">
-          <h2 className="text-slate-400 text-[10px] font-black uppercase tracking-widest">
-            Registry Sub-Grid Array
+        {/* Section Headline Divider */}
+        <div className="flex items-center justify-between px-2">
+          <h2 className="text-[#2b2670] text-[11px] font-black uppercase tracking-widest opacity-80">
+            Alumni Interactive Grid Array
           </h2>
+          <div className="h-[1px] flex-1 bg-[#2b2670]/10 mx-4 hidden sm:block" />
         </div>
 
-        {/* Task 3 Ultra-Premium List View Grid Layout Component */}
-        <GraduateLists 
-          graduates={graduates}
+        {/* Task 3 Ultra-Premium List View Grid Component Layout */}
+        <GraduatesList 
+          graduates={graduates} 
           error={hasError}
-          selectedId={selectedId} 
-          onSelect={(id) => setSelectedId(id)}
+          selectedId="" 
         />
       </div>
     </main>
