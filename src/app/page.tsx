@@ -1,6 +1,6 @@
 // src/app/page.tsx
 import React from 'react';
-import GraduatesList from "@/components/Graduates/GraduatesList";
+import GraduatesListWrapper from "@/components/Graduates/GraduatesListWrapper";
 import { getGraduates, Graduate } from "@/lib/api";
 
 export default async function Home() {
@@ -64,11 +64,10 @@ export default async function Home() {
           <div className="h-[1px] flex-1 bg-[#2b2670]/10 mx-4 hidden sm:block" />
         </div>
 
-        {/* Task 3 Ultra-Premium List View Grid Component Layout */}
-        <GraduatesList 
+        {/* Task 3 Ultra-Premium List View Wrapper Component */}
+        <GraduatesListWrapper 
           graduates={graduates} 
-          error={hasError}
-          selectedId="" 
+          error={hasError} 
         />
       </div>
     </main>

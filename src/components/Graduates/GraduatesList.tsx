@@ -66,11 +66,11 @@ export default function GraduateLists({ graduates, error, selectedId, onSelect }
 
               {/* Graduate Name Dynamic Core Label */}
               <div className="flex flex-col min-w-0">
-                <span className="text-sm font-bold tracking-wide truncate transition-colors duration-200 text-black">
+                <span className={`text-sm font-bold tracking-wide truncate transition-colors duration-200 text-black ${isSelected?'text-white':'text-black'}`}>
                   {grad.name}
                 </span>
                 <span className={`text-[10px] font-semibold uppercase tracking-widest mt-0.5 ${isSelected ? 'text-[#c59c45]' : 'text-slate-400 group-hover/card:text-[#c59c45]'}`}>
-                  Alumni.Profile
+                  Alumni Profile
                 </span>
               </div>
             </div>
