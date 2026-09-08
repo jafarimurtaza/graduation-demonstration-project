@@ -8,8 +8,8 @@ type MessageBody = {
 };
 
 export async function POST(request: Request) {
-    const upstreamUrl = process.env.START_URL;
-    if (!upstreamUrl) {
+    const endpoint = process.env.START_URL;
+    if (!endpoint) {
         return NextResponse.json({ error: "Server misconfigured" }, { status: 500 });
     }
 
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     }
 
     try {
-        const res = await fetch(upstreamUrl, {
+        const res = await fetch(endpoint, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body),
