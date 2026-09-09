@@ -1,8 +1,8 @@
 // src/components/Graduates/MessageFormCard.tsx
 'use client';
 
-import React from 'react';
-import { Graduate } from '@/lib/api';
+import React, {useState} from 'react';
+import { Graduate, postMessage } from '@/lib/api';
 
 interface MessageFormCardProps {
   selectedGraduate: Graduate | undefined;
@@ -13,7 +13,7 @@ interface MessageFormCardProps {
   onSenderNameChange: (val: string) => void;
   onAnonymousChange: (val: boolean) => void;
   onClose: () => void;
-  onSubmit: (e: React.FormEvent) => void;
+  
 }
 
 export default function MessageFormCard({
@@ -25,9 +25,35 @@ export default function MessageFormCard({
   onSenderNameChange,
   onAnonymousChange,
   onClose,
-  onSubmit
+  
 }: MessageFormCardProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
   if (!selectedGraduate) return null;
+
+  const handleSubmit = async (e: React.FormEvent) =>{
+    e.preventDefault();
+
+    try{
+      setIsSubmitting(true);
+      await postMessage({
+        graduate: selectedGraduate.slug,
+        message,
+        sender_name: senderName,
+        is_anonymous: isAnonymous
+      });
+      
+      alert("Message sent successfully!");
+      onMessageChange("");
+      onSenderNameChange("");
+      onAnonymousChange(false);
+      onClose();
+
+    } catch (error) {
+      console.error("Error posting message:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
 
   return (
     <div className="animate-fadeIn bg-[#fffffe] border border-[#c59c45]/30 rounded-[24px] p-6 sm:p-10 shadow-[0_20px_50px_-12px_rgba(197,156,69,0.15)] max-w-2xl mx-auto space-y-6 transition-all duration-300">
@@ -52,7 +78,7 @@ export default function MessageFormCard({
       </div>
 
       {/* Messaging Input Block Grid */}
-      <form onSubmit={onSubmit} className="space-y-5 text-left">
+      <form onSubmit={handleSubmit} className="space-y-5 text-left">
         {/* Message field */}
         <div className="space-y-1.5">
           <label className="text-xs font-bold text-[#2b2670] uppercase tracking-wider">Your Message</label>
@@ -101,8 +127,8 @@ export default function MessageFormCard({
           type="submit"
           className="w-full mt-4 p-3.5 rounded-xl bg-[#2b2670] text-[#fffffe] hover:bg-[#1a164d] border border-[#c59c45]/20 font-bold text-sm tracking-wide transition-all shadow-md active:scale-[0.99] cursor-pointer outline-none flex items-center justify-center gap-2"
         >
-          <span> Send Message </span>
-          <span>→</span>
+          <span> {isSubmitting ? "Sending..." : "Send Message"} </span>
+          {!isSubmitting && <span>→</span>}
         </button>
       </form>
     </div>

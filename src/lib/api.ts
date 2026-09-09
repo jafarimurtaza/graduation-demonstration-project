@@ -8,12 +8,7 @@ type GraduateApiResponse = {
 };
 
 export async function getGraduates(): Promise<Graduate[]> {
-  const response = await fetch(
-    `${process.env.API_URL}/api/graduate-profiles/public?page=1&pageSize=30`,
-    {
-      cache: "no-store",
-    }
-  );
+  const response = await fetch("/api/graduates");
 
   if (!response.ok) {
     throw new Error(`Failed to fetch graduates: ${response.status}`);
@@ -21,8 +16,27 @@ export async function getGraduates(): Promise<Graduate[]> {
 
   const result: GraduateApiResponse = await response.json();
 
-  return result.data.map((graduate) => ({
-    name: graduate.name,
-    slug: graduate.slug,
-  }));
+ return result.data;
 }
+
+type PostMessageData = {
+  gratuate: string;
+  message: string;
+  sender_name: string;
+  is_anonymous: boolean;
+};
+
+export async function postMessage(data: PostMessageData){
+  const response = await fetch("/api/message",{
+    method: "POST",
+    headers:{"Content-type": "application/json", },
+    body: JSON.stringify(data),
+});
+
+  if (!response.ok){
+    throw new Error(`Failed to post message: ${response.status}`);
+  }
+  return response.json();
+
+}
+ 
