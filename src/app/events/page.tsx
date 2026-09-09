@@ -1,10 +1,7 @@
-import EventMain from "@/components/Events/EventMain";
+// src/app/events/page.tsx
 import React from "react";
+import EventMain from "@/components/Events/EventMain";
 
 export default function EventsPage() {
-  return (
-    <div>
-      <EventMain />
-    </div>
-  );
+  return <EventMain />;
 }
