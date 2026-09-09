@@ -1,67 +1,75 @@
-export default function Home() {
+// src/app/page.tsx
+import React from 'react';
+import GraduatesListWrapper from "@/components/Graduates/GraduatesListWrapper";
+import { getGraduates, Graduate } from "@/lib/api";
+
+export default async function Home() {
+  let graduates: Graduate[] = []; 
+  let hasError = false;
+
+  try {
+    graduates = await getGraduates();
+  } catch (error) {
+    console.error("Failed to stream server profiles via getGraduates:", error);
+    hasError = true;
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className="min-h-screen bg-[#f7f6ee] text-black p-4 sm:p-12 relative overflow-hidden antialiased selection:bg-[#2b2670] selection:text-white" dir="ltr">
+      {/* Decorative Elegant Soft Palette Lighting */}
+      <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#c59c45]/10 blur-[130px] pointer-events-none" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-[#2b2670]/10 blur-[120px] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto space-y-12 relative z-10">
+        
+        {/* Premium Bento Header Container */}
+        <div className="bg-[#fffffe] border border-[#2b2670]/10 rounded-[28px] p-8 md:p-12 shadow-[0_20px_40px_-15px_rgba(43,38,112,0.03)] grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+          <div className="lg:col-span-2 space-y-4">
+            <div className="inline-flex items-center gap-2 bg-[#c59c45]/10 text-[#c59c45] text-[11px] font-bold tracking-widest uppercase px-3.5 py-1.5 rounded-full border border-[#c59c45]/20 shadow-sm">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#c59c45] animate-pulse"></span>
+              Cohort Celebration • Active Registry
+            </div>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight text-[#2b2670] leading-[1.05]">
+              Honor Our Graduates
+            </h1>
+            <p className="text-slate-600 text-sm sm:text-base max-w-xl font-normal leading-relaxed">
+              Choose a graduate below to write a message and celebrate their incredible tech journey on our community wall.
+            </p>
+          </div>
+          
+          {/* Custom Royal Blue & Gold Visual Counter Block */}
+          <div className="bg-[#2b2670] text-[#fffffe] rounded-[22px] p-6 shadow-xl relative overflow-hidden flex flex-col justify-between h-full min-h-[160px] border border-[#c59c45]/30">
+            <div className="absolute -right-6 -bottom-6 text-9xl text-white/5 font-black font-sans pointer-events-none select-none">
+              {graduates.length}
+            </div>
+            <div className="text-[11px] uppercase tracking-widest text-[#c59c45] font-bold">
+              Total Verified Records
+            </div>
+            <div className="space-y-1 mt-auto">
+              <div className="text-4xl sm:text-5xl font-black font-mono tracking-tight text-[#fffffe]">
+                {graduates.length}
+              </div>
+              <div className="text-xs text-slate-300 font-medium">
+                Profiles Active & Live Online
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Section Headline Divider */}
+        <div className="flex items-center justify-between px-2">
+          <h2 className="text-[#2b2670] text-[11px] font-black uppercase tracking-widest opacity-80">
+            Alumni Interactive Grid Array
+          </h2>
+          <div className="h-[1px] flex-1 bg-[#2b2670]/10 mx-4 hidden sm:block" />
+        </div>
+
+        {/* Task 3 Ultra-Premium List View Wrapper Component */}
+        <GraduatesListWrapper 
+          graduates={graduates} 
+          error={hasError} 
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
