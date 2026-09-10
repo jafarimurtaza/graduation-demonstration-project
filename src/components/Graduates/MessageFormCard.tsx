@@ -2,7 +2,7 @@
 'use client';
 
 import React, {useState} from 'react';
-import { Graduate, postMessage } from '@/lib/api';
+import { Graduate,  postGraduates} from '@/lib/api';
 
 interface MessageFormCardProps {
   selectedGraduate: Graduate | undefined;
@@ -33,14 +33,17 @@ export default function MessageFormCard({
   const handleSubmit = async (e: React.FormEvent) =>{
     e.preventDefault();
 
+    const payload = {
+      graduate: selectedGraduate.slug,
+      message: message.trim(),
+      sender_name: isAnonymous ? 'Anonymous' : senderName.trim(),
+      is_anonymous: isAnonymous
+    };
+
     try{
       setIsSubmitting(true);
-      await postMessage({
-        graduate: selectedGraduate.slug,
-        message,
-        sender_name: senderName,
-        is_anonymous: isAnonymous
-      });
+      await postGraduates({ payLoad: payload });
+        
       
       alert("Message sent successfully!");
       onMessageChange("");

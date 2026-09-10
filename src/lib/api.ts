@@ -20,17 +20,19 @@ export async function getGraduates(): Promise<Graduate[]> {
 }
 
 type PostMessageData = {
-  gratuate: string;
+  graduate: string;
   message: string;
   sender_name: string;
   is_anonymous: boolean;
 };
 
-export async function postMessage(data: PostMessageData){
-  const response = await fetch("/api/message",{
+export async function postGraduates({payLoad,}:{
+  payLoad: PostMessageData;
+}){
+  const response = await fetch("/api/messages",{
     method: "POST",
     headers:{"Content-type": "application/json", },
-    body: JSON.stringify(data),
+    body: JSON.stringify(payLoad),
 });
 
   if (!response.ok){

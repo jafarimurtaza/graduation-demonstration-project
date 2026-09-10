@@ -17,19 +17,6 @@ export default function GraduatesListWrapper({ graduates, error }: GraduatesList
   const [senderName, setSenderName] = useState<string>('');
   const [isAnonymous, setIsAnonymous] = useState<boolean>(false);
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Submitting Graduation Message Payload:", {
-      graduateSlug: selectedSlug,
-      message,
-      senderName: isAnonymous ? "Anonymous" : senderName,
-      isAnonymous
-    });
-    setMessage('');
-    setSenderName('');
-    setSelectedSlug('');
-  };
-
   const selectedGraduate = graduates.find((g) => g.slug === selectedSlug);
 
   return (
@@ -53,7 +40,6 @@ export default function GraduatesListWrapper({ graduates, error }: GraduatesList
           onSenderNameChange={setSenderName}
           onAnonymousChange={setIsAnonymous}
           onClose={() => setSelectedSlug('')}
-          onSubmit={handleFormSubmit}
         />
       )}
     </div>

@@ -8,9 +8,9 @@ type MessageBody = {
 };
 
 export async function POST(request: Request) {
-    const upstreamUrl = process.env.START_URL;
+    const upstreamUrl = process.env.START_URL || process.env.NEXT_PUBLIC_START_URL;
     if (!upstreamUrl) {
-        return NextResponse.json({ error: "Server misconfigured" }, { status: 500 });
+        return NextResponse.json({ error: "Server misconfigured: START_URL is not set" }, { status: 500 });
     }
 
     let body: MessageBody;
@@ -20,15 +20,25 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
     }
 
-    if (!body?.message || !body?.sender_name || !body?.graduate) {
+    const trimmedMessage = body?.message?.trim();
+    const senderName = typeof body?.sender_name === "string" ? body.sender_name.trim() : "";
+    const isAnonymous = Boolean(body?.is_anonymous);
+
+    if (!trimmedMessage || !body?.graduate || (!isAnonymous && !senderName)) {
         return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
+
+    const normalizedBody = {
+        ...body,
+        message: trimmedMessage,
+        sender_name: isAnonymous ? "Anonymous" : senderName,
+    };
 
     try {
         const res = await fetch(upstreamUrl, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(body),
+            body: JSON.stringify(normalizedBody),
             signal: AbortSignal.timeout(10_000),
         });
 
