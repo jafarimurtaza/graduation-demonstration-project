@@ -46,7 +46,7 @@ export default function GraduateLists({
     );
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 group/grid">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-5 pt-2 group/grid">
       {graduates.map((grad, index) => {
         const isSelected = selectedId === grad.slug;
         const isAlternate = index % 2 === 0;
@@ -56,9 +56,10 @@ export default function GraduateLists({
             key={grad.slug}
             type="button"
             onClick={() => onSelect?.(grad.slug)}
-            className={`group/card relative flex items-center justify-between p-5 rounded-2xl border text-left transition-all duration-500 transform active:scale-[0.97] cursor-pointer outline-none ${
+            aria-pressed={isSelected}
+            className={`group/card relative flex items-center justify-between p-4 sm:p-5 rounded-2xl border text-left transition-all duration-500 transform active:scale-[0.97] cursor-pointer outline-none focus-visible:ring-4 focus-visible:ring-[#c59c45]/40 ${
               isSelected
-                ? "bg-gradient-to-br from-[#2b2670] to-[#1a164d] border-[#2b2670] text-[#fffffe] font-bold shadow-[0_15px_30px_-8px_rgba(43,38,112,0.25)] translate-y-[-6px] z-10"
+                ? "bg-gradient-to-br from-[#2b2670] to-[#1a164d] border-[#2b2670] text-[#fffffe] font-bold shadow-[0_15px_30px_-8px_rgba(43,38,112,0.25)] sm:translate-y-[-6px] z-10"
                 : "bg-[#fffffe] border-[#2b2670]/10 text-slate-700 hover:text-black hover:border-[#2b2670]/30 shadow-[0_4px_20px_-4px_rgba(43,38,112,0.02)] hover:shadow-[0_15px_30px_-6px_rgba(43,38,112,0.08)] hover:translate-y-[-4px] group-hover/grid:opacity-50 hover:!opacity-100"
             } ${isAlternate && !isSelected ? "lg:translate-y-2 lg:hover:translate-y-[-2px]" : ""}`}
           >

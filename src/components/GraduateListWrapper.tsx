@@ -31,6 +31,7 @@ export default function GraduatesListWrapper({
       {/* 2. The Pop-Up Message Card Form */}
       {selectedSlug && (
         <MessageFormCard
+          key={selectedSlug}
           selectedGraduate={selectedGraduate}
           onClose={() => setSelectedSlug("")}
         />

@@ -1,7 +1,9 @@
 // src/app/page.tsx
+import Footer from "@/components/Footer";
 import GraduatesListWrapper from "@/components/GraduateListWrapper";
 import HeroSection from "@/components/HeroSection";
-import { getGraduates, Graduate } from "@/lib/api";
+import type { Graduate } from "@/lib/api";
+import { getGraduates } from "@/lib/graduates.server";
 
 export default async function Home() {
   let graduates: Graduate[] = [];
@@ -25,6 +27,8 @@ export default async function Home() {
         {/* Task 3 Ultra-Premium List View Wrapper Component */}
         <GraduatesListWrapper graduates={graduates} error={hasError} />
       </div>
+
+      <Footer />
     </main>
   );
 }

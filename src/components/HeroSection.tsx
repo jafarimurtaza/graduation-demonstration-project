@@ -13,11 +13,11 @@ export default function HeroSection({ graduates }: HeroSectionProps) {
       <div className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] rounded-full bg-[#c59c45]/10 blur-[130px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-[#2b2670]/10 blur-[120px] pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto space-y-12 relative z-10">
+      <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12 relative z-10 mb-4 sm:mb-6">
         {/* Premium Bento Header Container */}
-        <div className="bg-[#fffffe] border border-[#2b2670]/10 rounded-[28px] p-8 md:p-12 shadow-[0_20px_40px_-15px_rgba(43,38,112,0.03)] grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+        <div className="bg-[#fffffe] border border-[#2b2670]/10 rounded-[28px] p-6 sm:p-8 md:p-12 shadow-[0_20px_40px_-15px_rgba(43,38,112,0.03)] grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
           <div className="lg:col-span-2 space-y-4">
-            <div className="inline-flex items-center gap-2 bg-[#c59c45]/10 text-[#c59c45] text-[11px] font-bold tracking-widest uppercase px-3.5 py-1.5 rounded-full border border-[#c59c45]/20 shadow-sm">
+            <div className="inline-flex items-center gap-2 bg-[#c59c45]/10 text-[#c59c45] text-[10px] sm:text-[11px] font-bold tracking-wider sm:tracking-widest uppercase px-3.5 py-1.5 rounded-full border border-[#c59c45]/20 shadow-sm">
               <span className="h-1.5 w-1.5 rounded-full bg-[#c59c45] animate-pulse"></span>
               Cohort Celebration • Active Registry
             </div>
@@ -50,11 +50,11 @@ export default function HeroSection({ graduates }: HeroSectionProps) {
         </div>
 
         {/* Section Headline Divider */}
-        <div className="flex items-center justify-between px-2">
-          <h2 className="text-[#2b2670] text-[11px] font-black uppercase tracking-widest opacity-80">
+        <div className="flex items-center gap-4 px-1 sm:px-2 pb-2">
+          <h2 className="shrink-0 text-[#2b2670] text-[11px] font-black uppercase tracking-widest opacity-80">
             Alumni Interactive Grid Array
           </h2>
-          <div className="h-[1px] flex-1 bg-[#2b2670]/10 mx-4 hidden sm:block" />
+          <div className="h-px flex-1 bg-[#2b2670]/10" />
         </div>
       </div>
     </div>
