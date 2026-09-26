@@ -1,74 +1,64 @@
-# Task 1 — Setup + static UI
+# Graduation demonstration — tasks
 
-**Afifa Nazari · `feat/project-setup`**
+Live coding session. Each person takes one task, in order.
 
-create the follwoing folders;
+## Team
 
-`src/app/api`
+| #   | Name            | Task                             |
+| --- | --------------- | -------------------------------- |
+| 1   | Afifa Nazari    | Project structure                |
+| 2   | Hadia Rauf      | Fetch graduates                  |
+| 3   | Zahra Hassanzai | API route                        |
+| 4   | Humaira Ahmadi  | List view                        |
+| 5   | Nasim Haidari   | Wire `postGraduates` to the form |
+| 6   | Samira Qoraishi | Wire the submit                  |
+| 7   | Behishta Rauf   | Commit and push                  |
+| 8   | Murtaza         | Deploy                           |
 
-## src/components:
+Each task below lists the owner and the work to do.
 
-```
-components/MessageFormCard.tsx
-components/GraduateList.tsx
-components/HeroSection.tsx
-components/SuccessPanel.tsx
-components/GraduateListWrapper.tsx
+## Task 1 — Project structure
 
-```
+**Owner:** Afifa Nazari · Project structure
 
-## lib
+Create these folders:
 
-create a folder call it `lib`
+- `src/app/api`
+- `src/components`
+- `src/lib`
 
-`src/lib`
+Create these components:
 
-# task 2 — Real graduates
+- `src/components/MessageFormCard.tsx`
+- `src/components/GraduateList.tsx`
+- `src/components/HeroSection.tsx`
+- `src/components/SuccessPanel.tsx`
+- `src/components/GraduateListWrapper.tsx`
 
-**Hadia Rauf · `feat/graduates-fetch`**
+## Task 2 — Fetch graduates
 
-Create `api.ts` in
-`lib/api.ts`:
+**Owner:** Hadia Rauf · Graduates fetch
 
-create a function:
-`getGraduates()` fetches
-`/api/graduate-profiles/public?page=1&pageSize=30`
+Create `src/lib/api.ts` with a `getGraduates()` function.
 
-# Task 3 — List view
-
-**Humaira · `feat/list-view`**
-Write your ui code in
-
-Component:
-
-```
-
-GraduateLists.tsx
-GraduateWrapper.tsx
-GraduationMessages.tsx
-MessageForm.tsx
+It fetches:
 
 ```
-
-Create a clean grid, an `empty-state message`
-for the (unlikely) zero-graduates case,
-
-## Update the `page.tsx`
-
-# Task 4 — API route
-
-**Zahra · `feat/api-route`**
-
-In `src/app/api`
-
-Create a new route call it:
-
-`app/api/messages/route.ts`,
-
-Methdod: `POST `
-body:
-
+/api/graduate-profiles/public?page=1&pageSize=30
 ```
+
+## Task 3 — API route
+
+**Owner:** Zahra · API route
+
+Create `src/app/api/messages/route.ts`.
+
+- **Method:** `POST`
+- **Forwards to:** `POST /api/graduation-messages/public`
+
+Request body:
+
+```json
 {
   "message": "تبریک! به شما افتخار می‌کنیم.",
   "sender_name": "Zahra",
@@ -77,65 +67,47 @@ body:
 }
 ```
 
-forwards to `POST /api/graduation-messages/public`
+## Task 4 — List view
 
-# Task 5 — Wire the postGraduates to the form
+**Owner:** Humaira · List view
 
-**Khatera Fayazi · `feat/validation`**
+Write the UI in these components:
 
-Create a function in `lib/api.ts` call it `postGraduates()`
-to call the `/api/messages` endpoint
+- `GraduateLists.tsx`
+- `GraduateWrapper.tsx`
+- `GraduationMessages.tsx`
+- `MessageForm.tsx`
 
-and use the function in the `MessageFormCard`
+Also:
 
-# Task 6 — Wire the submit
+- Show graduates in a clean grid
+- Show an empty-state message when there are zero graduates
+- Update `page.tsx`
 
-**Samira Qoraishi · `feat/submit-wiring`**
+## Task 5 — Wire `postGraduates` to the form
 
-Status state `success` - `error` `isSubmitting` . Submit disabled while sending, success panel shown on `sent`, inline retry on `error`, reset clears everything for a second message.
+**Owner:** Nasim Haidari · Validation
 
-**Done:** full flow produces a draft in Strapi and shows the success panel.
+In `src/lib/api.ts`, add `postGraduates()`.
 
-# Task 7 — Find and fix the bug
+- It calls the `/api/messages` endpoint
+- Use it inside `MessageFormCard`
 
-**Nassim Haidary · `feat/lint-fix`**
+## Task 6 — Wire the submit
 
-## step 1
+**Owner:** Samira Qoraishi · Submit wiring
 
-`bun add -d eslint eslint-config-next`
+Update `GraduateListWrapper.tsx` with these states:
 
-## Step 2
+- `isSubmitting` — disable submit while the request is sending
+- `success` — show the success panel when the message is sent
+- `error` — show an inline retry
+- Reset clears the form so a second message can be sent
 
-Create `eslint.config.mjs` with the Next.js config in the root level:
+## Task 7 — Commit and push
 
-## Step 3
+**Owner:** Behishta Rauf · Commit and push
 
-```
-import { defineConfig, globalIgnores } from 'eslint/config'
-import nextVitals from 'eslint-config-next/core-web-vitals'
+## Task 8 — Deploy
 
-const eslintConfig = defineConfig([
-  ...nextVitals,
-  // Override default ignores of eslint-config-next.
-  globalIgnores([
-    // Default ignores of eslint-config-next:
-    '.next/**',
-    'out/**',
-    'build/**',
-    'next-env.d.ts',
-  ]),
-])
-
-export default eslintConfig
-```
-
-## Step 4
-
-Run ESLint:
-`bunx eslint .`
-
-## Step 5
-
-And see where we have erros and warrnings
-
-**Done:** `bunx eslint .` is clean, and the fix doesn't touch anything unrelated.
+**Owner:** Murtaza · Deploy
