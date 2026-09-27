@@ -18,17 +18,29 @@ export default async function Home() {
 
   return (
     <main
-      className="min-h-screen bg-[#f7f6ee] text-black p-4 sm:p-12 relative overflow-hidden antialiased selection:bg-[#2b2670] selection:text-white"
+      className="relative min-h-screen bg-[#f7f6ee] text-black antialiased selection:bg-[#2b2670] selection:text-white"
       dir="ltr"
     >
-      <HeroSection graduates={graduates} />
-
-      <div className="max-w-7xl mx-auto space-y-12 relative z-10">
-        {/* Task 3 Ultra-Premium List View Wrapper Component */}
-        <GraduatesListWrapper graduates={graduates} error={hasError} />
+      {/* Contained atmospheric layer — keeps blur blobs from inflating page height */}
+      <div
+        className="pointer-events-none absolute inset-0 overflow-hidden"
+        aria-hidden
+      >
+        <div className="absolute top-[-20%] left-[-10%] h-[60vw] w-[60vw] rounded-full bg-[#c59c45]/10 blur-[130px]" />
+        <div className="absolute right-[-10%] bottom-[-10%] h-[50vw] w-[50vw] rounded-full bg-[#2b2670]/10 blur-[120px]" />
       </div>
 
-      <Footer />
+      <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl flex-col px-4 py-6 sm:px-8 sm:py-10 lg:px-12">
+        <HeroSection graduates={graduates} />
+
+        <div className="mt-6 sm:mt-8">
+          <GraduatesListWrapper graduates={graduates} error={hasError} />
+        </div>
+
+        <div className="mt-auto pt-10 sm:pt-14">
+          <Footer />
+        </div>
+      </div>
     </main>
   );
 }

@@ -2,9 +2,9 @@
 "use client";
 
 import { Graduate } from "@/lib/api";
-import { useState } from "react";
-import GraduatesList from "../components/GraduateList";
-import MessageFormCard from "../components/MessageFormCard";
+import { useCallback, useEffect, useState } from "react";
+import GraduatesList from "./GraduateList";
+import MessageFormCard from "./MessageFormCard";
 
 interface GraduatesListWrapperProps {
   graduates: Graduate[];
@@ -18,9 +18,22 @@ export default function GraduatesListWrapper({
   const [selectedSlug, setSelectedSlug] = useState<string>("");
   const selectedGraduate = graduates.find((g) => g.slug === selectedSlug);
 
+  const clearSelection = useCallback(() => setSelectedSlug(""), []);
+
+  // Lock body scroll while the message modal is open so the page
+  // doesn't jump or leave the header clipped under the viewport.
+  useEffect(() => {
+    if (!selectedSlug) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [selectedSlug]);
+
   return (
-    <div className="space-y-12">
-      {/* 1. The Interactive Matrix Grid */}
+    <>
       <GraduatesList
         graduates={graduates}
         error={error}
@@ -28,14 +41,13 @@ export default function GraduatesListWrapper({
         onSelect={(slug) => setSelectedSlug(slug)}
       />
 
-      {/* 2. The Pop-Up Message Card Form */}
       {selectedSlug && (
         <MessageFormCard
           key={selectedSlug}
           selectedGraduate={selectedGraduate}
-          onClose={() => setSelectedSlug("")}
+          onClose={clearSelection}
         />
       )}
-    </div>
+    </>
   );
 }
