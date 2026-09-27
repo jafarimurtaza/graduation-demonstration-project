@@ -1,16 +1,16 @@
 // Fixed on purpose: this project was built during the graduation event.
-const CREATED_ON = "2026-08-30";
-const CREATED_ON_LABEL = "30 August 2026";
+const CREATED_ON = "2026-09-26";
+const CREATED_ON_LABEL = "26 September 2026";
 
 export default function Footer() {
   return (
     <footer className="relative z-10 max-w-7xl mx-auto mt-16 sm:mt-24">
       <div className="flex items-center gap-4 mb-8">
-        <div className="h-px flex-1 bg-gradient-to-r from-transparent to-[#c59c45]/40" />
+        <div className="h-px flex-1 bg-linear-to-r from-transparent to-[#c59c45]/40" />
         <span className="text-xl" aria-hidden>
           🎓
         </span>
-        <div className="h-px flex-1 bg-gradient-to-l from-transparent to-[#c59c45]/40" />
+        <div className="h-px flex-1 bg-linear-to-l from-transparent to-[#c59c45]/40" />
       </div>
 
       <div className="flex flex-col items-center text-center gap-3 pb-6 sm:pb-0">
